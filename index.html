@@ -3,34 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimalist GitHub Page</title>
+    <title>My Professional Page</title>
     <style>
+        /* Import Playfair Display from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+        /* Color Palette */
+        :root {
+            --primary-color: #318CE7; /* Blue de France */
+            --secondary-color: #F4F4F4; /* Soft Gray */
+            --text-color: #333; /* Dark Gray */
+        }
+
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
             text-align: center;
             padding: 50px;
         }
+
         .container {
             background: white;
-            padding: 20px;
-            max-width: 600px;
+            padding: 30px;
+            max-width: 700px;
             margin: auto;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        /* Name Style */
         h1 {
-            color: #333;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
         }
-        p {
-            color: #666;
+
+        /* Work Position */
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: normal;
+            color: var(--text-color);
+        }
+
+        /* Bio */
+        p.bio {
+            font-style: italic;
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Bio Points*/
+        .bio-points {
+            font-style: italic;
+            font-size: 16px;
+            color: #555;
+            list-style-type: disc;
+            text-align: left;
+            max-width: 500px;
+            margin: 10px auto;
+            padding-left: 20px;
+        }
+
+        /* Contact Info */
+        .contact {
+            margin-top: 20px;
+            font-variant-numeric: oldstyle-nums;
+        }
+
+        .contact a {
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .contact a:hover {
+            color: #0056b3;
+        }
+
+        /* Publications Section */
+        .publications {
+            margin-top: 40px;
+            text-align: left;
+            padding: 20px;
+        }
+
+        .publications h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+        }
+
+        .publications ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .publications li {
+            margin: 10px 0;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to My Minimalist Page</h1>
-        <p>This is a clean, simple webpage hosted with GitHub Pages.</p>
+        <h1>Bartolomeo Fanizza</h1> <!-- Replace with your name -->
+        <h2>CFD Researcher Engineer in Aerodynamics - ONERA, The French Aerospace Lab</h2> <!-- Replace with your position -->
+
+        <p class="bio">
+            When something is important enough, you do it even if the odds are not in your favor.  
+        </p>
+       
+        <ul class="bio-points">
+            <li> Actually involved in: Turbulence Modeling, RANS equations, Machine Learning in CFD, Data-driven turbulence models, discontinuous Galerkin methods, Numerical schemes for turbulent flows. </li>
+            <li>Previously involved in: High-order numerical schemes, Machine Learning for PDEs, compressible Euler equations, artificial viscosity methods. </li>
+            <li>Major interests: Computational Fluid Dynamics, Turbulence Modeling, Aeronautics, Aerospace,  Propulsion systems, Turbo Machinery, Aerodynamics and Gas dynamics, Numerical methods, Applied mathematics. </li>
+            <li>Personal interests: Sport, Art (Paintings, Sculptures & Architecture) and Literature (Classics & Latin)</li>
+        </ul>
+        <div class="contact">
+            <p><strong>Email:</strong> bartolomeo.fanizza@outlook.it</p> <!-- Replace with your email -->
+             <!--<p><strong>Phone:</strong> +1 234 567 8901</p> Replace with your phone number -->
+            
+            <a href="https://www.linkedin.com/in/bartolomeo-fanizza/" target="_blank">LinkedIn</a> |
+            <a href="https://www.researchgate.net/profile/Bartolomeo-Fanizza" target="_blank">ResearchGate</a>
+        </div>
+
+        <!-- Publications Section -->
+        <div class="publications">
+            <h3>International Journal Publications</h3>
+            <ul>
+                <li>Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Emeric Martin, and Denis Sipp. (2025) "Adjoint-based optimization for non-linear inverse problems with high-order discretization of the compressible RANS equations" <em>Applied Mathematical Modelling</em>,  142. 115984. 10.1016/j.apm.2025.115984. </li>
+            </ul>
+            <h3>International Proceedings</h3>
+            <ul>
+                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Robust Features Design For Machine-Learning Augmented Turbulence Closure Models" <em>ODAS 2024 : 24th joint ONERA-DLR Aerospace Symposium </em>.</li> 12-14 June 2024 Braunschweig, Germany. 
+                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Field-inversion analyses for machine-learning applications of compressible RANS computations in a discontinuous Galerkin framework" <em>9th European Congress on Computational Methods in Applied Sciences and Engineering. </em> 3-7 June 2024, Lisboa, Portugal. </li>
+                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Robust Features Design For Machine-Learning Augmented Turbulence Closure Models" <em>1st Workshop on Machine Learning for Fluid Dynamics </em>6-8 March 2024, Paris, France.</li>
+                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Improving RANS modeling with data-assimilation for compressible flows" <em>14th International ERCOFTAC Symposium on Engineering Turbulence Modelling and Measurements </em>6-8 September 2023, Barcelona, Spain. </li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
