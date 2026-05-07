@@ -3,155 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bartolomeo Fanizza</title>
+    <meta name="description" content="Bartolomeo Fanizza - CFD Researcher Engineer at ONERA. Turbulence Modeling, ML in CFD, Aerodynamics.">
+    <title>Bartolomeo Fanizza | CFD Researcher</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* Import Playfair Display from Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-
-        /* Color Palette */
+        /* --- 1. CORE VARIABLES & PALETTE --- */
         :root {
-            --primary-color: #318CE7; /* Blue de France */
-            --secondary-color: #F4F4F4; /* Soft Gray */
-            --text-color: #333; /* Dark Gray */
+            /* Palette: Deep Space, Electric Fluid, ML Purple */
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            
+            --primary: #06b6d4; /* Cyan (Fluids) */
+            --secondary: #8b5cf6; /* Purple (ML/AI) */
+            --accent: #f43f5e; /* Coral (Highlights) */
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-tech: 'JetBrains Mono', monospace;
+            
+            --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-text: linear-gradient(90deg, #fff, var(--primary));
+            
+            --shadow-glow: 0 0 20px rgba(6, 182, 212, 0.3);
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            
+            --border-glass: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* General Styles */
+        /* --- 2. GLOBAL RESET & BASE --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html { scroll-behavior: smooth; }
+        
         body {
-            font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            text-align: center;
-            padding: 50px;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
         }
 
+        /* --- 3. DYNAMIC BACKGROUND (The "Flow") --- */
+        .flow-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+            overflow: hidden;
+        }
+        
+        /* Animated Mesh Grid */
+        .flow-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%; height: 200%;
+            top: -50%; left: -50%;
+            background-image: 
+                linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: flowMove 20s linear infinite;
+            opacity: 0.4;
+        }
+
+        /* Floating Orbs for Depth */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s ease-in-out infinite;
+        }
+        .orb-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: 10%; animation-delay: 0s; }
+        .orb-2 { width: 400px; height: 400px; background: var(--secondary); bottom: 10%; right: 10%; animation-delay: -5s; }
+        .orb-3 { width: 200px; height: 200px; background: var(--accent); top: 40%; right: 30%; opacity: 0.3; animation-duration: 15s; }
+
+        @keyframes flowMove { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(50px); } }
+        @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -30px); } }
+
+        /* --- 4. LAYOUT & TYPOGRAPHY --- */
         .container {
-            background: white;
-            padding: 30px;
-            max-width: 700px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Name Style */
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
+        h1, h2, h3 { font-family: var(--font-display); font-weight: 700; }
+        .mono { font-family: var(--font-tech); letter-spacing: -0.5px; }
+        
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
 
-        /* Work Position */
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            font-weight: normal;
-            color: var(--text-color);
+        /* --- 5. NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: var(--border-glass);
+            background: rgba(15, 23, 42, 0.8);
         }
-
-        /* Bio */
-        p.bio {
-            font-style: italic;
-            font-size: 16px;
-            color: #555;
+        .logo { font-size: 1.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links a { margin-left: 2rem; font-size: 0.9rem; font-weight: 500; color: var(--text-muted); position: relative; }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--primary); transition: 0.3s;
         }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* Bio Points*/
-        .bio-points {
-            font-style: italic;
-            font-size: 16px;
-            color: #555;
-            list-style-type: disc;
-            text-align: left;
-            max-width: 500px;
-            margin: 10px auto;
-            padding-left: 20px;
+        /* --- 6. HERO SECTION --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 4rem;
         }
-
-        /* Contact Info */
-        .contact {
-            margin-top: 20px;
-            font-variant-numeric: oldstyle-nums;
-        }
-
-        .contact a {
+        .hero-tag {
+            font-family: var(--font-tech);
+            color: var(--primary);
+            margin-bottom: 1rem;
             display: inline-block;
-            margin: 10px;
-            text-decoration: none;
-            color: var(--primary-color);
-            font-weight: bold;
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            background: rgba(6, 182, 212, 0.1);
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero h2 {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+        .hero-quote {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            border-left: 3px solid var(--secondary);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            max-width: 600px;
+        }
+
+        /* --- 7. GLASS CARDS (Depth) --- */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: var(--border-glass);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--gradient-main);
+            opacity: 0.7;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.2);
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        /* --- 8. SECTIONS --- */
+        section { padding: 5rem 0; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        .section-header h3 { font-size: 2rem; margin-right: 1rem; }
+        .section-line { height: 2px; flex-grow: 1; background: var(--border-glass); position: relative; }
+        .section-line::after {
+            content: ''; position: absolute; right: 0; top: -4px;
+            width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* --- 9. SKILLS (Tags) --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-category h4 { color: var(--primary); font-family: var(--font-tech); margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; }
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: 0.3s;
+            cursor: default;
+        }
+        .tag:hover {
+            border-color: var(--primary);
+            color: var(--text-main);
+            background: rgba(6, 182, 212, 0.1);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+        }
+        .tag.highlight { border-color: var(--secondary); color: var(--secondary); }
+
+        /* --- 10. PUBLICATIONS --- */
+        .pub-list { display: grid; gap: 1.5rem; }
+        .pub-item {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .pub-item:hover { border-left-color: var(--primary); }
+        .pub-title { font-weight: 600; font-size: 1.1rem; color: var(--text-main); margin-bottom: 0.3rem; }
+        .pub-authors { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+        .pub-meta { font-family: var(--font-tech); font-size: 0.8rem; color: var(--primary); }
+        .pub-link {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.8rem; margin-top: 0.5rem; color: var(--secondary);
+            opacity: 0.8;
+        }
+        .pub-link:hover { opacity: 1; text-decoration: underline; }
+
+        /* --- 11. CONTACT & FOOTER --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .contact-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 1rem;
+            background: var(--bg-glass);
+            border: var(--border-glass);
+            border-radius: 8px;
+            font-weight: 600;
             transition: 0.3s;
         }
-
-        .contact a:hover {
-            color: #0056b3;
+        .contact-btn:hover { background: var(--primary); color: #000; box-shadow: var(--shadow-glow); }
+        
+        footer {
+            text-align: center; padding: 3rem 0; color: var(--text-muted);
+            font-size: 0.8rem; border-top: var(--border-glass); margin-top: 3rem;
         }
 
-        /* Publications Section */
-        .publications {
-            margin-top: 40px;
-            text-align: left;
-            padding: 20px;
-        }
-
-        .publications h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 5px;
-        }
-
-        .publications ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .publications li {
-            margin: 10px 0;
-            font-size: 16px;
+        /* --- 12. MOBILE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplified for demo */
+            .skills-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Bartolomeo Fanizza</h1> <!-- Replace with your name -->
-        <h2>CFD Researcher Engineer in Aerodynamics </h1> <!-- Replace with your name -->
-        <h2>ONERA, The French Aerospace Lab</h2> <!-- Replace with your position -->
 
-        <p class="bio">
-            When something is important enough, you do it even if the odds are not in your favor.  
-        </p>
-       
-        <ul class="bio-points">
-            <li> Actually involved in: Turbulence Modeling, RANS equations, Machine Learning in CFD, Data-driven turbulence models, discontinuous Galerkin methods, Numerical schemes for turbulent flows. </li>
-            <li>Previously involved in: High-order numerical schemes, Machine Learning for PDEs, compressible Euler equations, artificial viscosity methods. </li>
-            <li>Major interests: Computational Fluid Dynamics, Turbulence Modeling, Aeronautics, Aerospace,  Propulsion systems, Turbo Machinery, Aerodynamics and Gas dynamics, Numerical methods, Applied mathematics. </li>
-            <li>Personal interests: Sport, Art (Paintings, Sculptures & Architecture) and Literature (Classics & Latin)</li>
-        </ul>
-        <div class="contact">
-            <p><strong>Email:</strong> bartolomeo.fanizza@outlook.it</p> <!-- Replace with your email -->
-             <!--<p><strong>Phone:</strong> +1 234 567 8901</p> Replace with your phone number -->
-            
-            <a href="https://www.linkedin.com/in/bartolomeo-fanizza/" target="_blank">LinkedIn</a> |
-            <a href="https://www.researchgate.net/profile/Bartolomeo-Fanizza" target="_blank">ResearchGate</a>
-        </div>
-
-        <!-- Publications Section -->
-        <div class="publications">
-            <h3>International Journal Publications</h3>
-            <ul>
-                <li>Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Emeric Martin, and Denis Sipp. (2025) "Adjoint-based optimization for non-linear inverse problems with high-order discretization of the compressible RANS equations" <em>Applied Mathematical Modelling</em>,  142. 115984. 10.1016/j.apm.2025.115984. </li>
-            </ul>
-            <h3>International Proceedings</h3>
-            <ul>
-                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Robust Features Design For Machine-Learning Augmented Turbulence Closure Models" <em>ODAS 2024: 24th joint ONERA-DLR Aerospace Symposium </em> 12-14 June 2024 Braunschweig, Germany. </li> 
-                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Field-inversion analyses for machine-learning applications of compressible RANS computations in a discontinuous Galerkin framework" <em> 9th European Congress on Computational Methods in Applied Sciences and Engineering. </em> 3-7 June 2024, Lisboa, Portugal. </li>
-                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Robust Features Design For Machine-Learning Augmented Turbulence Closure Models" <em>1st Workshop on Machine Learning for Fluid Dynamics </em> 6-8 March 2024, Paris, France.</li>
-                <li> Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp.  (2024). "Improving RANS modeling with data-assimilation for compressible flows" <em>14th International ERCOFTAC Symposium on Engineering Turbulence Modelling and Measurements </em> 6-8 September 2023, Barcelona, Spain. </li>
-            </ul>
-        </div>
+    <!-- Background Elements -->
+    <div class="flow-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo mono">BF.</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#publications">Publications</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Hero -->
+        <section id="about" class="hero visible">
+            <div class="hero-tag mono">CFD RESEARCHER ENGINEER</div>
+            <h1>Bartolomeo Fanizza</h1>
+            <h2 class="mono">ONERA, The French Aerospace Lab</h2>
+            
+            <div class="hero-quote">
+                "When something is important enough, you do it even if the odds are not in your favor."
+            </div>
+
+            <div class="contact-grid">
+                <a href="mailto:bartolomeo.fanizza@outlook.it" class="contact-btn">
+                    <i class="fas fa-envelope"></i> Email
+                </a>
+                <a href="https://www.linkedin.com/in/bartolomeo-fanizza/" target="_blank" class="contact-btn">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="https://www.researchgate.net/profile/Bartolomeo-Fanizza" target="_blank" class="contact-btn">
+                    <i class="fab fa-researchgate"></i> ResearchGate
+                </a>
+            </div>
+        </section>
+
+        <!-- Expertise -->
+        <section id="expertise">
+            <div class="section-header">
+                <h3>Technical Expertise</h3>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="glass-card">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4 class="mono">Current Focus</h4>
+                        <div class="tag-cloud">
+                            <span class="tag highlight">Turbulence Modeling</span>
+                            <span class="tag">RANS Equations</span>
+                            <span class="tag highlight">ML in CFD</span>
+                            <span class="tag">Discontinuous Galerkin</span>
+                            <span class="tag">Data-driven Models</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h4 class="mono">Previous Work</h4>
+                        <div class="tag-cloud">
+                            <span class="tag">High-order Schemes</span>
+                            <span class="tag">ML for PDEs</span>
+                            <span class="tag">Compressible Euler</span>
+                            <span class="tag">Artificial Viscosity</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h4 class="mono">Domains</h4>
+                        <div class="tag-cloud">
+                            <span class="tag">Aeronautics</span>
+                            <span class="tag">Propulsion</span>
+                            <span class="tag">Gas Dynamics</span>
+                            <span class="tag">Applied Math</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h4 class="mono">Personal</h4>
+                        <div class="tag-cloud">
+                            <span class="tag">Sport</span>
+                            <span class="tag">Art & Architecture</span>
+                            <span class="tag">Classics & Latin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications -->
+        <section id="publications">
+            <div class="section-header">
+                <h3>Selected Publications</h3>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="pub-list">
+                <!-- Paper 1 -->
+                <div class="glass-card pub-item">
+                    <div class="pub-title">Adjoint-based optimization for non-linear inverse problems with high-order discretization of the compressible RANS equations</div>
+                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Emeric Martin, Denis Sipp</div>
+                    <div class="pub-meta">Applied Mathematical Modelling, Vol 142, 115984 (2025)</div>
+                    <a href="https://doi.org/10.1016/j.apm.2025.115984" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> View Paper</a>
+                </div>
+
+                <!-- Paper 2 -->
+                <div class="glass-card pub-item">
+                    <div class="pub-title">Robust Features Design For Machine-Learning Augmented Turbulence Closure Models</div>
+                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
+                    <div class="pub-meta">ODAS 2024: 24th joint ONERA-DLR Aerospace Symposium</div>
+                </div>
+
+                <!-- Paper 3 -->
+                <div class="glass-card pub-item">
+                    <div class="pub-title">Field-inversion analyses for machine-learning applications of compressible RANS computations in a discontinuous Galerkin framework</div>
+                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
+                    <div class="pub-meta">9th ECCOMAS Congress, Lisboa, Portugal (2024)</div>
+                </div>
+
+                <!-- Paper 4 -->
+                <div class="glass-card pub-item">
+                    <div class="pub-title">Improving RANS modeling with data-assimilation for compressible flows</div>
+                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
+                    <div class="pub-meta">ERCOFTAC Symposium, Barcelona, Spain (2023)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p class="mono">© 2025 Bartolomeo Fanizza. Designed with Fluid Dynamics in mind.</p>
+            <p style="margin-top:0.5rem; opacity: 0.5;">Hosted on GitHub Pages</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- 1. Scroll Animation Observer ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- 2. Smooth Scroll for Anchors ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- 3. Subtle Parallax on Mouse Move ---
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.orb');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 20;
+                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+    <!-- Add this before your closing </body> tag -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bibtex-parser/0.1.0/bibtex.min.js"></script>
+    <script>
+        fetch('publications.bib')
+            .then(response => response.text())
+            .then(data => {
+                const bib = bibtex.parseBibtex(data);
+                const container = document.querySelector('.pub-list');
+                
+                bib.forEach(entry => {
+                    const div = document.createElement('div');
+                    div.className = 'glass-card pub-item';
+                    div.innerHTML = `
+                        <div class="pub-title">${entry.title}</div>
+                        <div class="pub-authors">${entry.author}</div>
+                        <div class="pub-meta">${entry.journal || entry.booktitle} (${entry.year})</div>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+    </script> -->
 </body>
 </html>
