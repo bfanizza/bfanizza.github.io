@@ -244,7 +244,8 @@
             background: rgba(6, 182, 212, 0.1);
             box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
         }
-        .tag.highlight { border-color: var(--secondary); color: var(--secondary); }
+        .tag.highlight_ml  { border-color: var(--secondary); color: var(--secondary); }
+        .tag.highlight_cfd { border-color: var(--primary); color: var(--primary); }
 
         /* --- 10. PUBLICATIONS --- */
         .pub-list { display: grid; gap: 1.5rem; }
@@ -324,7 +325,7 @@
             <h2 class="mono">ONERA, The French Aerospace Lab</h2>
             
             <div class="hero-quote">
-                "When something is important enough, you do it even if the odds are not in your favor."
+                "The starry heavens above me and the moral law within me."
             </div>
 
             <div class="contact-grid">
@@ -352,18 +353,18 @@
                     <div class="skill-category">
                         <h4 class="mono">Current Focus</h4>
                         <div class="tag-cloud">
-                            <span class="tag highlight">Turbulence Modeling</span>
-                            <span class="tag">RANS Equations</span>
-                            <span class="tag highlight">ML in CFD</span>
-                            <span class="tag">Discontinuous Galerkin</span>
-                            <span class="tag">Data-driven Models</span>
+                            <span class="tag highlight_ml">Turbulence Modeling</span>
+                            <span class="tag highlight_cfd">RANS Equations</span>
+                            <span class="tag highlight_ml">ML in CFD</span>
+                            <span class="tag highlight_cfd">Discontinuous Galerkin</span>
+                            <span class="tag highlight_ml">Data-driven Models</span>
                         </div>
                     </div>
                     <div class="skill-category">
                         <h4 class="mono">Previous Work</h4>
                         <div class="tag-cloud">
-                            <span class="tag">High-order Schemes</span>
-                            <span class="tag">ML for PDEs</span>
+                            <span class="tag highlight_cfd">High-order Schemes</span>
+                            <span class="tag highlight_ml">ML for PDEs</span>
                             <span class="tag">Compressible Euler</span>
                             <span class="tag">Artificial Viscosity</span>
                         </div>
@@ -478,26 +479,5 @@
             });
         });
     </script>
-    <!-- Add this before your closing </body> tag -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bibtex-parser/0.1.0/bibtex.min.js"></script>
-    <script>
-        fetch('publications.bib')
-            .then(response => response.text())
-            .then(data => {
-                const bib = bibtex.parseBibtex(data);
-                const container = document.querySelector('.pub-list');
-                
-                bib.forEach(entry => {
-                    const div = document.createElement('div');
-                    div.className = 'glass-card pub-item';
-                    div.innerHTML = `
-                        <div class="pub-title">${entry.title}</div>
-                        <div class="pub-authors">${entry.author}</div>
-                        <div class="pub-meta">${entry.journal || entry.booktitle} (${entry.year})</div>
-                    `;
-                    container.appendChild(div);
-                });
-            });
-    </script> -->
 </body>
 </html>
