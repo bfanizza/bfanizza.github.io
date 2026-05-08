@@ -478,26 +478,5 @@
             });
         });
     </script>
-    <!-- Add this before your closing </body> tag -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bibtex-parser/0.1.0/bibtex.min.js"></script>
-    <script>
-        fetch('publications.bib')
-            .then(response => response.text())
-            .then(data => {
-                const bib = bibtex.parseBibtex(data);
-                const container = document.querySelector('.pub-list');
-                
-                bib.forEach(entry => {
-                    const div = document.createElement('div');
-                    div.className = 'glass-card pub-item';
-                    div.innerHTML = `
-                        <div class="pub-title">${entry.title}</div>
-                        <div class="pub-authors">${entry.author}</div>
-                        <div class="pub-meta">${entry.journal || entry.booktitle} (${entry.year})</div>
-                    `;
-                    container.appendChild(div);
-                });
-            });
-    </script> -->
 </body>
 </html>
