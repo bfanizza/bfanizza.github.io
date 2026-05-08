@@ -11,11 +11,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         /* --- 1. CORE VARIABLES & PALETTE --- */
         :root {
@@ -27,12 +26,13 @@
             --primary: #06b6d4; /* Cyan (Fluids) */
             --secondary: #8b5cf6; /* Purple (ML/AI) */
             --accent: #f43f5e; /* Coral (Highlights) */
+            --base: #5f70f1; /* (Highlights) */
             
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             
-            --font-display: 'Playfair Display', serif;
-            --font-body: 'Outfit', sans-serif;
+            /* Gill Sans applied to ALL text */
+            --font-main: 'Gill Sans', 'Gill Sans MT', 'Segoe UI', sans-serif;
             --font-tech: 'JetBrains Mono', monospace;
             
             --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
@@ -43,7 +43,6 @@
             
             --border-glass: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         /* --- 2. GLOBAL RESET & BASE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -52,12 +51,11 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: var(--font-body);
+            font-family: var(--font-main); /* Gill Sans applied everywhere */
             line-height: 1.7;
             overflow-x: hidden;
             position: relative;
         }
-
         /* --- 3. DYNAMIC BACKGROUND (The "Flow") --- */
         .flow-bg {
             position: fixed;
@@ -81,7 +79,6 @@
             animation: flowMove 20s linear infinite;
             opacity: 0.4;
         }
-
         /* Floating Orbs for Depth */
         .orb {
             position: absolute;
@@ -94,10 +91,8 @@
         .orb-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: 10%; animation-delay: 0s; }
         .orb-2 { width: 400px; height: 400px; background: var(--secondary); bottom: 10%; right: 10%; animation-delay: -5s; }
         .orb-3 { width: 200px; height: 200px; background: var(--accent); top: 40%; right: 30%; opacity: 0.3; animation-duration: 15s; }
-
         @keyframes flowMove { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(50px); } }
         @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -30px); } }
-
         /* --- 4. LAYOUT & TYPOGRAPHY --- */
         .container {
             max-width: 1000px;
@@ -106,13 +101,15 @@
             position: relative;
             z-index: 1;
         }
-
-        h1, h2, h3 { font-family: var(--font-display); font-weight: 700; }
+        /* ALL text uses Gill Sans */
+        h1, h2, h3, h4, h5, h6, p, span, a, li, label, button {
+            font-family: var(--font-main);
+        }
+        /* Only code/tech elements use monospace */
         .mono { font-family: var(--font-tech); letter-spacing: -0.5px; }
         
         a { text-decoration: none; color: inherit; transition: 0.3s; }
-
-        /* --- 5. NAVIGATION --- */
+        /* --- 5. NAVIGATION (FIXED: Added mobile menu) --- */
         nav {
             position: fixed;
             top: 0; width: 100%;
@@ -120,28 +117,90 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
+            z-index: 1000;
             backdrop-filter: blur(10px);
             border-bottom: var(--border-glass);
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.9);
         }
         .logo { font-size: 1.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-links a { margin-left: 2rem; font-size: 0.9rem; font-weight: 500; color: var(--text-muted); position: relative; }
+        
+        /* Desktop Nav */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a { 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            color: var(--text-muted); 
+            position: relative; 
+        }
         .nav-links a:hover { color: var(--primary); }
         .nav-links a::after {
             content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
             background: var(--primary); transition: 0.3s;
         }
         .nav-links a:hover::after { width: 100%; }
-
-        /* --- 6. HERO SECTION --- */
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+        
+        /* Mobile Nav Panel */
+        .mobile-nav {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--bg-dark);
+            backdrop-filter: blur(10px);
+            border-left: var(--border-glass);
+            padding: 6rem 2rem 2rem;
+            transition: right 0.3s ease;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .mobile-nav.active { right: 0; }
+        .mobile-nav a {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-glass);
+        }
+        .mobile-nav a:hover { color: var(--primary); }
+        
+        /* Overlay when menu open */
+        .nav-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .nav-overlay.active { opacity: 1; visibility: visible; }
+        
+        /* --- 6. HERO SECTION (FIXED: Added padding-top) --- */
         .hero {
             min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 4rem;
+            padding-top: 8rem; /* Increased from 4rem to account for fixed nav */
+            padding-bottom: 4rem;
         }
         .hero-tag {
             font-family: var(--font-tech);
@@ -169,7 +228,6 @@
             margin-bottom: 2rem;
         }
         .hero-quote {
-            font-family: var(--font-display);
             font-style: italic;
             font-size: 1.2rem;
             color: var(--text-muted);
@@ -178,7 +236,6 @@
             margin: 2rem 0;
             max-width: 600px;
         }
-
         /* --- 7. GLASS CARDS (Depth) --- */
         .glass-card {
             background: var(--bg-card);
@@ -204,11 +261,9 @@
             box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.2);
             border-color: rgba(6, 182, 212, 0.3);
         }
-
         /* --- 8. SECTIONS --- */
         section { padding: 5rem 0; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         section.visible { opacity: 1; transform: translateY(0); }
-
         .section-header {
             display: flex;
             align-items: center;
@@ -221,7 +276,6 @@
             width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
             box-shadow: 0 0 10px var(--primary);
         }
-
         /* --- 9. SKILLS (Tags) --- */
         .skills-grid {
             display: grid;
@@ -246,9 +300,10 @@
             background: rgba(6, 182, 212, 0.1);
             box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
         }
-        .tag.highlight_ml  { border-color: var(--secondary); color: var(--secondary); }
-        .tag.highlight_cfd { border-color: var(--primary); color: var(--primary); }
-
+        .tag.highlight_ml   { border-color: var(--secondary); color: var(--secondary); }
+        .tag.highlight_cfd  { border-color: var(--primary); color: var(--primary); }
+        .tag.highlight_ext  { border-color: var(--accent); color: var(--accent); }
+        .tag.highlight_base { border-color: var(--base); color: var(--base); }
         /* --- 10. PUBLICATIONS --- */
         .pub-list { display: grid; gap: 1.5rem; }
         .pub-item {
@@ -266,7 +321,6 @@
             opacity: 0.8;
         }
         .pub-link:hover { opacity: 1; text-decoration: underline; }
-
         /* --- 11. CONTACT & FOOTER --- */
         .contact-grid {
             display: grid;
@@ -289,24 +343,37 @@
             text-align: center; padding: 3rem 0; color: var(--text-muted);
             font-size: 0.8rem; border-top: var(--border-glass); margin-top: 3rem;
         }
-
-        /* --- 12. MOBILE --- */
+        /* --- 12. MOBILE RESPONSIVE (FIXED: Menu visible) --- */
         @media (max-width: 768px) {
+            .hero { padding-top: 6rem; }
             .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Simplified for demo */
+            .nav-links { display: none; } /* Hide desktop nav */
+            .mobile-menu-btn { display: block; } /* Show hamburger */
             .skills-grid { grid-template-columns: 1fr; }
+            .container { padding: 0 1rem; }
+            nav { padding: 1rem; }
         }
     </style>
 </head>
 <body>
-
     <!-- Background Elements -->
     <div class="flow-bg">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
     </div>
-
+    
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay"></div>
+    
+    <!-- Mobile Navigation Panel -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#about" onclick="closeMobileMenu()">About</a>
+        <a href="#expertise" onclick="closeMobileMenu()">Expertise</a>
+        <a href="#publications" onclick="closeMobileMenu()">Publications</a>
+        <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+    </div>
+    
     <!-- Navigation -->
     <nav>
         <div class="logo mono">BF.</div>
@@ -316,20 +383,22 @@
             <a href="#publications">Publications</a>
             <a href="#contact">Contact</a>
         </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
-
+    
     <div class="container">
         
         <!-- Hero -->
         <section id="about" class="hero visible">
             <div class="hero-tag mono">CFD RESEARCHER ENGINEER</div>
-            <h1>Bartolomeo Fanizza</h1>
+            <h1> Bartolomeo Fanizza</h1>
             <h2 class="mono">ONERA, The French Aerospace Lab</h2>
             
             <div class="hero-quote">
                 "The starry heavens above me and the moral law within me."
             </div>
-
             <div class="contact-grid">
                 <a href="mailto:bartolomeo.fanizza@outlook.it" class="contact-btn">
                     <i class="fas fa-envelope"></i> Email
@@ -342,14 +411,13 @@
                 </a>
             </div>
         </section>
-
+        
         <!-- Expertise -->
         <section id="expertise">
             <div class="section-header">
                 <h3>Technical Expertise</h3>
                 <div class="section-line"></div>
             </div>
-
             <div class="glass-card">
                 <div class="skills-grid">
                     <div class="skill-category">
@@ -366,36 +434,35 @@
                         <div class="tag-cloud">
                             <span class="tag highlight_cfd">High-order Schemes</span>
                             <span class="tag highlight_ml">ML for PDEs</span>
-                            <span class="tag">Hyperbolic PDEs</span>
+                            <span class="tag highlight_ext">Hyperbolic PDEs</span>
                         </div>
                     </div>
                     <div class="skill-category">
                         <h4 class="mono">Domains</h4>
                         <div class="tag-cloud">
-                            <span class="tag">Applied Aeronautics</span>
-                            <span class="tag">Computational Fluid Dynamics</span>
-                            <span class="tag">Applied Mathematics</span>
+                            <span class="tag highlight_ext">Applied Aeronautics</span>
+                            <span class="tag highlight_ext">Computational Fluid Dynamics</span>
+                            <span class="tag highlight_ext">Applied Mathematics</span>
                         </div>
                     </div>
                     <div class="skill-category">
                         <h4 class="mono">Personal</h4>
                         <div class="tag-cloud">
-                            <span class="tag">Gym Workouts</span>
-                            <span class="tag">Painting & Architecture</span>
-                            <span class="tag">Classical Music</span>
+                            <span class="tag highlight_base">Gym Workouts</span>
+                            <span class="tag highlight_base">Painting & Architecture</span>
+                            <span class="tag highlight_base">Classical Music</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <!-- Publications -->
         <section id="publications">
             <div class="section-header">
                 <h3>Selected Publications</h3>
                 <div class="section-line"></div>
             </div>
-
             <div class="pub-list">
                 <!-- Paper 1 -->
                 <div class="glass-card pub-item">
@@ -404,21 +471,18 @@
                     <div class="pub-meta">Applied Mathematical Modelling, Vol 142, 115984 (2025)</div>
                     <a href="https://doi.org/10.1016/j.apm.2025.115984" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> View Paper</a>
                 </div>
-
                 <!-- Paper 2 -->
                 <div class="glass-card pub-item">
                     <div class="pub-title">Robust Features Design For Machine-Learning Augmented Turbulence Closure Models</div>
                     <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
                     <div class="pub-meta">ODAS 2024: 24th joint ONERA-DLR Aerospace Symposium</div>
                 </div>
-
                 <!-- Paper 3 -->
                 <div class="glass-card pub-item">
                     <div class="pub-title">Field-inversion analyses for machine-learning applications of compressible RANS computations in a discontinuous Galerkin framework</div>
                     <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
                     <div class="pub-meta">9th ECCOMAS Congress, Lisboa, Portugal (2024)</div>
                 </div>
-
                 <!-- Paper 4 -->
                 <div class="glass-card pub-item">
                     <div class="pub-title">Improving RANS modeling with data-assimilation for compressible flows</div>
@@ -427,36 +491,68 @@
                 </div>
             </div>
         </section>
-
+        
         <!-- Footer -->
         <footer>
             <p class="mono">© 2025 Bartolomeo Fanizza. Designed with Fluid Dynamics in mind.</p>
             <p style="margin-top:0.5rem; opacity: 0.5;">Hosted on GitHub Pages</p>
         </footer>
-
     </div>
-
+    
     <script>
-        // --- 1. Scroll Animation Observer ---
+        // --- 1. Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const overlay = document.getElementById('navOverlay');
+            const btn = document.getElementById('mobileMenuBtn');
+            const icon = btn.querySelector('i');
+            
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Toggle icon
+            if (mobileNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+        
+        function closeMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const overlay = document.getElementById('navOverlay');
+            const btn = document.getElementById('mobileMenuBtn');
+            const icon = btn.querySelector('i');
+            
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+        
+        // Close menu when clicking overlay
+        document.getElementById('navOverlay').addEventListener('click', closeMobileMenu);
+        
+        // --- 2. Scroll Animation Observer ---
         const observerOptions = {
             threshold: 0.1,
             rootMargin: "0px 0px -50px 0px"
         };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Only animate once
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
-
         document.querySelectorAll('section').forEach(section => {
             observer.observe(section);
         });
-
-        // --- 2. Smooth Scroll for Anchors ---
+        
+        // --- 3. Smooth Scroll for Anchors ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -465,13 +561,12 @@
                 });
             });
         });
-
-        // --- 3. Subtle Parallax on Mouse Move ---
+        
+        // --- 4. Subtle Parallax on Mouse Move ---
         document.addEventListener('mousemove', (e) => {
             const orbs = document.querySelectorAll('.orb');
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
-
             orbs.forEach((orb, index) => {
                 const speed = (index + 1) * 20;
                 orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
