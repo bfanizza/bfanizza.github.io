@@ -48,7 +48,7 @@
             --font-body: 'Lora', serif;                   /* Body text */
             --font-tech: 'JetBrains Mono', monospace;     /* Code elements */
             
-            --gradient-main: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             --gradient-text: linear-gradient(90deg, #fff, var(--primary));
             
             --shadow-glow: 0 0 20px rgba(88, 166, 255, 0.3);
@@ -86,22 +86,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
-            background:
-                radial-gradient(
-                    circle at top left,
-                    rgba(0,217,255,0.08),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at bottom right,
-                    rgba(179,18,47,0.12),
-                    transparent 40%
-                ),
-                linear-gradient(
-                    180deg,
-                    #05070b 0%,
-                    #080c14 100%
-                );
+            background: radial-gradient(circle at 50% 50%, #161b22 0%, #0d1117 100%);
             overflow: hidden;
         }
         
@@ -111,9 +96,11 @@
             position: absolute;
             width: 200%; height: 200%;
             top: -50%; left: -50%;
-            background-image:
-            linear-gradient(rgba(0, 217, 255, 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(179, 18, 47, 0.06) 1px, transparent 1px);
+            background-image: 
+                linear-gradient(rgba(88, 166, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 166, 255, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
             animation: flowMove 20s linear infinite;
             opacity: 0.4;
         }
@@ -126,30 +113,9 @@
             opacity: 0.6;
             animation: float 10s ease-in-out infinite;
         }
-        .orb-1 {
-            width: 320px;
-            height: 320px;
-            background: #00d9ff;
-            top: 10%;
-            left: 8%;
-        }
-        
-        .orb-2 {
-            width: 420px;
-            height: 420px;
-            background: #b3122f;
-            bottom: 5%;
-            right: 8%;
-        }
-        
-        .orb-3 {
-            width: 220px;
-            height: 220px;
-            background: #ff6b6b;
-            top: 45%;
-            right: 28%;
-            opacity: 0.22;
-        }
+        .orb-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: 10%; animation-delay: 0s; }
+        .orb-2 { width: 400px; height: 400px; background: var(--secondary); bottom: 10%; right: 10%; animation-delay: -5s; }
+        .orb-3 { width: 200px; height: 200px; background: var(--accent); top: 40%; right: 30%; opacity: 0.3; animation-duration: 15s; }
         @keyframes flowMove { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(50px); } }
         @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -30px); } }
         /* --- 4. LAYOUT & TYPOGRAPHY --- */
@@ -197,14 +163,13 @@
             font-weight: 500; 
             color: var(--text-muted); 
             position: relative; 
-            text-shadow: 0 0 10px rgba(0,217,255,0.6);
         }
         .nav-links a:hover { color: var(--primary); }
         .nav-links a::after {
             content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
             background: var(--primary); transition: 0.3s;
         }
-        .nav-links a:hover::after { width: 100%;
+        .nav-links a:hover::after { width: 100%; }
         
         /* Mobile Menu Toggle */
         .mobile-menu-btn {
@@ -267,11 +232,15 @@
             padding-bottom: 4rem;
         }
         .hero-tag {
-            background: rgba(0,217,255,0.08);
-            border: 1px solid rgba(0,217,255,0.45);
-            box-shadow:
-                0 0 10px rgba(0,217,255,0.25),
-                inset 0 0 10px rgba(0,217,255,0.08);
+            font-family: var(--font-tech);
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: inline-block;
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            background: rgba(88, 166, 255, 0.1);
         }
         .hero h1 {
             font-size: clamp(2.5rem, 5vw, 4.5rem);
@@ -318,13 +287,9 @@
             opacity: 0.7;
         }
         .glass-card:hover {
-            transform: translateY(-6px);
-            box-shadow:
-                0 0 20px rgba(0,217,255,0.12),
-                0 0 40px rgba(179,18,47,0.08),
-                0 20px 40px rgba(0,0,0,0.55);
-        
-            border-color: rgba(0,217,255,0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(88, 166, 255, 0.2);
+            border-color: rgba(88, 166, 255, 0.3);
         }
         /* --- 8. SECTIONS --- */
         section { padding: 5rem 0; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -365,16 +330,8 @@
             background: rgba(88, 166, 255, 0.1);
             box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
         }
-        .tag.highlight_ml {
-            border-color: #ff3b5f;
-            color: #ff758f;
-            background: rgba(179,18,47,0.08);
-        }
-        .tag.highlight_cfd {
-            border-color: #00d9ff;
-            color: #7ee7ff;
-            background: rgba(0,217,255,0.08);
-        }
+        .tag.highlight_ml   { border-color: var(--secondary); color: var(--secondary); }
+        .tag.highlight_cfd  { border-color: var(--primary); color: var(--primary); }
         .tag.highlight_ext  { border-color: var(--accent); color: var(--accent); }
         .tag.highlight_base { border-color: var(--base); color: var(--base); }
         /* --- 10. PUBLICATIONS --- */
@@ -419,20 +376,11 @@
             white-space: nowrap;
             color: var(--text-main);
         }
-        .contact-btn:hover {
-            background:
-                linear-gradient(
-                    135deg,
-                    #00d9ff,
-                    #b3122f
-                );
-        
-            color: white;
-            border-color: transparent;
-        
-            box-shadow:
-                0 0 20px rgba(0,217,255,0.25),
-                0 0 30px rgba(179,18,47,0.2);
+        .contact-btn:hover { 
+            background: var(--primary); 
+            color: #0d1117; 
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
         }
         
         /* --- 12. GITHUB DARK THEME CODE EDITOR --- */
@@ -705,7 +653,7 @@
             </div>
 
             <div class="section-header" style="margin-top: 4rem;">
-                <h3>Other Publications</h3>
+                <h3>Others</h3>
                 <div class="section-line"></div>
             </div>
             <div id="other-publications" class="pub-list">
