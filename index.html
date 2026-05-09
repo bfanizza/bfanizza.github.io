@@ -28,43 +28,74 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    <style>
         /* --- 1. CORE VARIABLES & PALETTE --- */
         :root {
-            /* Palette: Deep Space, Electric Fluid, ML Purple */
-            --bg-dark: #0d1117;
-            --bg-card: rgba(22, 27, 34, 0.7);
-            --bg-glass: rgba(255, 255, 255, 0.05);
-            
-            --primary: #58a6ff; /* GitHub Blue */
-            --secondary: #7e71f7; /* GitHub Purple */
-            --accent: #f778ba; /* GitHub Pink */
-            --base: #79c0ff; /* GitHub Light Blue */
-            
-            --text-main: #c9d1d9;
-            --text-muted: #8b949e;
-            
-            /* OPTION 2: Academic & Elegant Font Stack */
-            --font-headings: 'Playfair Display', serif;  /* Headings */
-            --font-body: 'Lora', serif;                   /* Body text */
-            --font-tech: 'JetBrains Mono', monospace;     /* Code elements */
-            
-            --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            --gradient-text: linear-gradient(90deg, #fff, var(--primary));
-            
-            --shadow-glow: 0 0 20px rgba(88, 166, 255, 0.3);
-            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-            
-            --border-glass: 1px solid rgba(248, 250, 252, 0.1);
-            
-            /* GitHub Dark Theme Colors */
-            --code-bg: #0d1117;
-            --code-header: #161b22;
-            --code-border: #30363d;
-            --code-comment: #8b949e;
-            --code-keyword: #ff7b72;
-            --code-string: #a5d6ff;
-            --code-func: #d2a8ff;
-            --code-var: #79c0ff;
-            --code-number: #79c0ff;
-            --code-line-num: #484f58;
+        
+            /* ===== CORE DARK ATMOSPHERE ===== */
+            --bg-dark: #05070b;
+            --bg-card: rgba(12, 16, 24, 0.78);
+            --bg-glass: rgba(255,255,255,0.04);
+        
+            /* ===== CFD COLORS ===== */
+            --primary: #00d9ff;          /* electric CFD cyan */
+            --primary-deep: #0094c6;    /* fluid deep blue */
+        
+            /* ===== AI COLORS ===== */
+            --secondary: #b3122f;       /* blood red */
+            --secondary-bright: #ff3b5f;
+        
+            /* ===== BLEND / ENERGY ===== */
+            --accent: #ff6b6b;          /* warm transition */
+            --base: #7ee7ff;            /* soft plasma */
+        
+            /* ===== TEXT ===== */
+            --text-main: #e6edf3;
+            --text-muted: #8b98a5;
+        
+            /* ===== TYPOGRAPHY ===== */
+            --font-headings: 'Playfair Display', serif;
+            --font-body: 'Lora', serif;
+            --font-tech: 'JetBrains Mono', monospace;
+        
+            /* ===== MAIN VISUAL GRADIENTS ===== */
+            --gradient-main:
+                linear-gradient(
+                    135deg,
+                    #00d9ff 0%,
+                    #007ea7 35%,
+                    #7a1028 70%,
+                    #ff3b5f 100%
+                );
+        
+            --gradient-text:
+                linear-gradient(
+                    90deg,
+                    #ffffff 0%,
+                    #9be7ff 40%,
+                    #ff6b81 100%
+                );
+        
+            /* ===== GLOW EFFECTS ===== */
+            --shadow-glow:
+                0 0 25px rgba(0,217,255,0.25),
+                0 0 50px rgba(179,18,47,0.15);
+        
+            --shadow-card:
+                0 10px 35px rgba(0,0,0,0.55);
+        
+            --border-glass:
+                1px solid rgba(255,255,255,0.08);
+        
+            /* ===== CODE EDITOR ===== */
+            --code-bg: #070b11;
+            --code-header: #0f141d;
+            --code-border: #1f2a38;
+        
+            --code-comment: #6e7b87;
+            --code-keyword: #ff5370; /* crimson */
+            --code-string: #7ee7ff;  /* cyan */
+            --code-func: #ff7a90;    /* neon rose */
+            --code-var: #4fdfff;
+            --code-number: #72f1ff;
+            --code-line-num: #42505f;
         }
         /* --- 2. GLOBAL RESET & BASE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,7 +115,22 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
-            background: radial-gradient(circle at 50% 50%, #161b22 0%, #0d1117 100%);
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(0,217,255,0.08),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(179,18,47,0.12),
+                    transparent 40%
+                ),
+                linear-gradient(
+                    180deg,
+                    #05070b 0%,
+                    #080c14 100%
+                );
             overflow: hidden;
         }
         
@@ -94,11 +140,9 @@
             position: absolute;
             width: 200%; height: 200%;
             top: -50%; left: -50%;
-            background-image: 
-                linear-gradient(rgba(88, 166, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(88, 166, 255, 0.08) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg);
+            background-image:
+            linear-gradient(rgba(0, 217, 255, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(179, 18, 47, 0.06) 1px, transparent 1px);
             animation: flowMove 20s linear infinite;
             opacity: 0.4;
         }
@@ -111,9 +155,30 @@
             opacity: 0.6;
             animation: float 10s ease-in-out infinite;
         }
-        .orb-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: 10%; animation-delay: 0s; }
-        .orb-2 { width: 400px; height: 400px; background: var(--secondary); bottom: 10%; right: 10%; animation-delay: -5s; }
-        .orb-3 { width: 200px; height: 200px; background: var(--accent); top: 40%; right: 30%; opacity: 0.3; animation-duration: 15s; }
+        .orb-1 {
+            width: 320px;
+            height: 320px;
+            background: #00d9ff;
+            top: 10%;
+            left: 8%;
+        }
+        
+        .orb-2 {
+            width: 420px;
+            height: 420px;
+            background: #b3122f;
+            bottom: 5%;
+            right: 8%;
+        }
+        
+        .orb-3 {
+            width: 220px;
+            height: 220px;
+            background: #ff6b6b;
+            top: 45%;
+            right: 28%;
+            opacity: 0.22;
+        }
         @keyframes flowMove { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(50px); } }
         @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -30px); } }
         /* --- 4. LAYOUT & TYPOGRAPHY --- */
@@ -161,13 +226,14 @@
             font-weight: 500; 
             color: var(--text-muted); 
             position: relative; 
+            text-shadow: 0 0 10px rgba(0,217,255,0.6);
         }
         .nav-links a:hover { color: var(--primary); }
         .nav-links a::after {
             content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
             background: var(--primary); transition: 0.3s;
         }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover::after { width: 100%;
         
         /* Mobile Menu Toggle */
         .mobile-menu-btn {
@@ -230,15 +296,11 @@
             padding-bottom: 4rem;
         }
         .hero-tag {
-            font-family: var(--font-tech);
-            color: var(--primary);
-            margin-bottom: 1rem;
-            display: inline-block;
-            border: 1px solid var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            background: rgba(88, 166, 255, 0.1);
+            background: rgba(0,217,255,0.08);
+            border: 1px solid rgba(0,217,255,0.45);
+            box-shadow:
+                0 0 10px rgba(0,217,255,0.25),
+                inset 0 0 10px rgba(0,217,255,0.08);
         }
         .hero h1 {
             font-size: clamp(2.5rem, 5vw, 4.5rem);
@@ -285,9 +347,13 @@
             opacity: 0.7;
         }
         .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -10px rgba(88, 166, 255, 0.2);
-            border-color: rgba(88, 166, 255, 0.3);
+            transform: translateY(-6px);
+            box-shadow:
+                0 0 20px rgba(0,217,255,0.12),
+                0 0 40px rgba(179,18,47,0.08),
+                0 20px 40px rgba(0,0,0,0.55);
+        
+            border-color: rgba(0,217,255,0.25);
         }
         /* --- 8. SECTIONS --- */
         section { padding: 5rem 0; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -328,8 +394,16 @@
             background: rgba(88, 166, 255, 0.1);
             box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
         }
-        .tag.highlight_ml   { border-color: var(--secondary); color: var(--secondary); }
-        .tag.highlight_cfd  { border-color: var(--primary); color: var(--primary); }
+        .tag.highlight_ml {
+            border-color: #ff3b5f;
+            color: #ff758f;
+            background: rgba(179,18,47,0.08);
+        }
+        .tag.highlight_cfd {
+            border-color: #00d9ff;
+            color: #7ee7ff;
+            background: rgba(0,217,255,0.08);
+        }
         .tag.highlight_ext  { border-color: var(--accent); color: var(--accent); }
         .tag.highlight_base { border-color: var(--base); color: var(--base); }
         /* --- 10. PUBLICATIONS --- */
@@ -374,11 +448,20 @@
             white-space: nowrap;
             color: var(--text-main);
         }
-        .contact-btn:hover { 
-            background: var(--primary); 
-            color: #0d1117; 
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+        .contact-btn:hover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #00d9ff,
+                    #b3122f
+                );
+        
+            color: white;
+            border-color: transparent;
+        
+            box-shadow:
+                0 0 20px rgba(0,217,255,0.25),
+                0 0 30px rgba(179,18,47,0.2);
         }
         
         /* --- 12. GITHUB DARK THEME CODE EDITOR --- */
