@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Prevent clickjacking -->
+    <!-- Safeness options -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'self' 'unsafe-inline'; 
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
+               font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; 
+               img-src 'self' data: https:; 
+               connect-src 'self'; 
+               upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Bartolomeo Fanizza - CFD Researcher Engineer at ONERA. Turbulence Modeling, ML in CFD, Aerodynamics.">
@@ -11,37 +22,49 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Playfair+Display:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    <style>
         /* --- 1. CORE VARIABLES & PALETTE --- */
         :root {
             /* Palette: Deep Space, Electric Fluid, ML Purple */
-            --bg-dark: #0f172a;
-            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-dark: #0d1117;
+            --bg-card: rgba(22, 27, 34, 0.7);
             --bg-glass: rgba(255, 255, 255, 0.05);
             
-            --primary: #06b6d4; /* Cyan (Fluids) */
-            --secondary: #8b5cf6; /* Purple (ML/AI) */
-            --accent: #f43f5e; /* Coral (Highlights) */
-            --base: #5f70f1; /* (Highlights) */
+            --primary: #58a6ff; /* GitHub Blue */
+            --secondary: #7e71f7; /* GitHub Purple */
+            --accent: #f778ba; /* GitHub Pink */
+            --base: #79c0ff; /* GitHub Light Blue */
             
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
             
-            /* Gill Sans applied to ALL text */
-            --font-main: 'Gill Sans', 'Gill Sans MT', 'Segoe UI', sans-serif;
-            --font-tech: 'JetBrains Mono', monospace;
+            /* OPTION 2: Academic & Elegant Font Stack */
+            --font-headings: 'Playfair Display', serif;  /* Headings */
+            --font-body: 'Lora', serif;                   /* Body text */
+            --font-tech: 'JetBrains Mono', monospace;     /* Code elements */
             
             --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             --gradient-text: linear-gradient(90deg, #fff, var(--primary));
             
-            --shadow-glow: 0 0 20px rgba(6, 182, 212, 0.3);
+            --shadow-glow: 0 0 20px rgba(88, 166, 255, 0.3);
             --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
             
-            --border-glass: 1px solid rgba(255, 255, 255, 0.1);
+            --border-glass: 1px solid rgba(248, 250, 252, 0.1);
+            
+            /* GitHub Dark Theme Colors */
+            --code-bg: #0d1117;
+            --code-header: #161b22;
+            --code-border: #30363d;
+            --code-comment: #8b949e;
+            --code-keyword: #ff7b72;
+            --code-string: #a5d6ff;
+            --code-func: #d2a8ff;
+            --code-var: #79c0ff;
+            --code-number: #79c0ff;
+            --code-line-num: #484f58;
         }
         /* --- 2. GLOBAL RESET & BASE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,7 +74,7 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: var(--font-main); /* Gill Sans applied everywhere */
+            font-family: var(--font-body); /* Lora for body text */
             line-height: 1.7;
             overflow-x: hidden;
             position: relative;
@@ -61,7 +84,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
-            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+            background: radial-gradient(circle at 50% 50%, #161b22 0%, #0d1117 100%);
             overflow: hidden;
         }
         
@@ -72,8 +95,8 @@
             width: 200%; height: 200%;
             top: -50%; left: -50%;
             background-image: 
-                linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+                linear-gradient(rgba(88, 166, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 166, 255, 0.08) 1px, transparent 1px);
             background-size: 50px 50px;
             transform: perspective(500px) rotateX(60deg);
             animation: flowMove 20s linear infinite;
@@ -101,11 +124,15 @@
             position: relative;
             z-index: 1;
         }
-        /* ALL text uses Gill Sans */
-        h1, h2, h3, h4, h5, h6, p, span, a, li, label, button {
-            font-family: var(--font-main);
+        /* Headings use Playfair Display */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-headings);
         }
-        /* Only code/tech elements use monospace */
+        /* Body text uses Lora */
+        p, span, a, li, label, button, div {
+            font-family: var(--font-body);
+        }
+        /* Code/tech elements use monospace */
         .mono { font-family: var(--font-tech); letter-spacing: -0.5px; }
         
         a { text-decoration: none; color: inherit; transition: 0.3s; }
@@ -120,7 +147,7 @@
             z-index: 1000;
             backdrop-filter: blur(10px);
             border-bottom: var(--border-glass);
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(13, 17, 23, 0.9);
         }
         .logo { font-size: 1.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
@@ -199,7 +226,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 8rem; /* Increased from 4rem to account for fixed nav */
+            padding-top: 8rem;
             padding-bottom: 4rem;
         }
         .hero-tag {
@@ -209,15 +236,15 @@
             display: inline-block;
             border: 1px solid var(--primary);
             padding: 0.5rem 1rem;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.8rem;
-            background: rgba(6, 182, 212, 0.1);
+            background: rgba(88, 166, 255, 0.1);
         }
         .hero h1 {
             font-size: clamp(2.5rem, 5vw, 4.5rem);
             line-height: 1.1;
             margin-bottom: 1rem;
-            background: linear-gradient(to right, #fff, #cbd5e1);
+            background: linear-gradient(to right, #fff, #c9d1d9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -228,10 +255,11 @@
             margin-bottom: 2rem;
         }
         .hero-quote {
+            font-family: var(--font-headings); /* Playfair Display for quote */
             font-style: italic;
             font-size: 1.2rem;
             color: var(--text-muted);
-            border-left: 3px solid var(--secondary);
+            border-left: 3px solid var(--primary);
             padding-left: 1.5rem;
             margin: 2rem 0;
             max-width: 600px;
@@ -241,10 +269,10 @@
             background: var(--bg-card);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: var(--border-glass);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(248, 250, 252, 0.08); /* Thinner border */
+            border-radius: 10px; /* Slightly smaller radius */
+            padding: 1.25rem; /* Reduced from 2rem */
+            box-shadow: 0 5px 20px -10px rgba(0, 0, 0, 0.4); /* Reduced shadow */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -252,14 +280,14 @@
         .glass-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
+            top: 0; left: 0; width: 100%; height: 3px;
             background: var(--gradient-main);
             opacity: 0.7;
         }
         .glass-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.2);
-            border-color: rgba(6, 182, 212, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(88, 166, 255, 0.2);
+            border-color: rgba(88, 166, 255, 0.3);
         }
         /* --- 8. SECTIONS --- */
         section { padding: 5rem 0; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -287,7 +315,7 @@
         .tag {
             padding: 0.4rem 0.8rem;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--code-border);
             border-radius: 6px;
             font-size: 0.85rem;
             color: var(--text-muted);
@@ -297,61 +325,197 @@
         .tag:hover {
             border-color: var(--primary);
             color: var(--text-main);
-            background: rgba(6, 182, 212, 0.1);
-            box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+            background: rgba(88, 166, 255, 0.1);
+            box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
         }
         .tag.highlight_ml   { border-color: var(--secondary); color: var(--secondary); }
         .tag.highlight_cfd  { border-color: var(--primary); color: var(--primary); }
         .tag.highlight_ext  { border-color: var(--accent); color: var(--accent); }
         .tag.highlight_base { border-color: var(--base); color: var(--base); }
         /* --- 10. PUBLICATIONS --- */
-        .pub-list { display: grid; gap: 1.5rem; }
+        .pub-list { display: grid; gap: 1rem; }
         .pub-item {
             position: relative;
-            padding-left: 1.5rem;
-            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            padding-left: 1.25rem;
+            border-left: 1px solid var(--code-border);
         }
         .pub-item:hover { border-left-color: var(--primary); }
-        .pub-title { font-weight: 600; font-size: 1.1rem; color: var(--text-main); margin-bottom: 0.3rem; }
-        .pub-authors { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.3rem; }
-        .pub-meta { font-family: var(--font-tech); font-size: 0.8rem; color: var(--primary); }
+        .pub-title { font-weight: 600; font-size: 1rem; color: var(--text-main); margin-bottom: 0.2rem; }
+        .pub-authors { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+        .pub-meta { font-family: var(--font-tech); font-size: 0.75rem; color: var(--primary); }
         .pub-link {
-            display: inline-flex; align-items: center; gap: 5px;
-            font-size: 0.8rem; margin-top: 0.5rem; color: var(--secondary);
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 0.75rem; margin-top: 0.3rem; color: var(--secondary);
             opacity: 0.8;
         }
         .pub-link:hover { opacity: 1; text-decoration: underline; }
         /* --- 11. CONTACT & FOOTER --- */
         .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
             gap: 1rem;
             margin-top: 2rem;
+            align-items: center;
         }
         .contact-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 1rem;
-            background: var(--bg-glass);
-            border: var(--border-glass);
-            border-radius: 8px;
+            display: inline-flex;
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px;
+            padding: 0.75rem 1.25rem;
+            background: var(--code-bg);
+            border: 1px solid var(--code-border);
+            border-radius: 6px;
             font-weight: 600;
             transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+            color: var(--text-main);
         }
-        .contact-btn:hover { background: var(--primary); color: #000; box-shadow: var(--shadow-glow); }
+        .contact-btn:hover { 
+            background: var(--primary); 
+            color: #0d1117; 
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+        }
+        
+        /* --- 12. GITHUB DARK THEME CODE EDITOR --- */
+        .code-editor {
+            background: var(--code-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--code-border);
+        }
+        .code-editor-header {
+            background: var(--code-header);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--code-border);
+        }
+        .code-editor-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .code-editor-title {
+            margin-left: 1rem;
+            font-family: var(--font-tech);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .code-editor-body {
+            padding: 1.5rem;
+            font-family: var(--font-tech);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        .code-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .line-number {
+            color: var(--code-line-num);
+            min-width: 2.5rem;
+            text-align: right;
+            user-select: none;
+            font-size: 0.85rem;
+        }
+        .code-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--code-var);
+            font-family: var(--font-tech);
+            font-size: 0.9rem;
+            padding: 0.25rem 0.5rem;
+            outline: none;
+            width: 100%;
+            border-radius: 4px;
+        }
+        .code-input::placeholder {
+            color: var(--code-comment);
+            font-style: italic;
+        }
+        .code-input:focus {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+        .code-keyword { color: var(--code-keyword); }
+        .code-string { color: var(--code-string); }
+        .code-comment { color: var(--code-comment); }
+        .code-func { color: var(--code-func); }
+        .code-var { color: var(--code-var); }
+        .code-send-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--code-bg);
+            color: var(--code-func);
+            border: 1px solid var(--code-border);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: var(--font-tech);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 3.5rem;
+        }
+        .code-send-btn:hover {
+            background: var(--primary);
+            color: #0d1117;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+        }
+        .code-send-btn i {
+            font-size: 1rem;
+        }
         
         footer {
             text-align: center; padding: 3rem 0; color: var(--text-muted);
             font-size: 0.8rem; border-top: var(--border-glass); margin-top: 3rem;
         }
-        /* --- 12. MOBILE RESPONSIVE (FIXED: Menu visible) --- */
+        /* --- 13. MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
             .hero { padding-top: 6rem; }
             .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Hide desktop nav */
-            .mobile-menu-btn { display: block; } /* Show hamburger */
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
             .skills-grid { grid-template-columns: 1fr; }
             .container { padding: 0 1rem; }
             nav { padding: 1rem; }
+            .contact-grid { 
+                justify-content: center;
+                flex-direction: column;
+            }
+            .contact-btn { 
+                width: 100%;
+                max-width: 300px;
+            }
+            .code-editor-body {
+                padding: 1rem;
+            }
+            .code-line {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            .line-number {
+                display: none;
+            }
+            .code-send-btn {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -392,21 +556,26 @@
         
         <!-- Hero -->
         <section id="about" class="hero visible">
-            <div class="hero-tag mono">CFD RESEARCHER ENGINEER</div>
-            <h1> Bartolomeo Fanizza</h1>
-            <h2 class="mono">ONERA, The French Aerospace Lab</h2>
+            <div class="hero-tag mono">PhD CFD Research Engineer in Aerodynamics</div>
+            <h1 style="font-variant: small-caps;">Bartolomeo Fanizza</h1>
+            <h2>ONERA, The French Aerospace Lab</h2>
             
             <div class="hero-quote">
                 "The starry heavens above me and the moral law within me."
             </div>
+            
+            <!-- Contact Buttons -->
             <div class="contact-grid">
                 <a href="mailto:bartolomeo.fanizza@outlook.it" class="contact-btn">
                     <i class="fas fa-envelope"></i> Email
                 </a>
-                <a href="https://www.linkedin.com/in/bartolomeo-fanizza/" target="_blank" class="contact-btn">
+                <a href="https://www.linkedin.com/in/bartolomeo-fanizza/" target="_blank" rel="noopener noreferrer" class="contact-btn">
                     <i class="fab fa-linkedin"></i> LinkedIn
                 </a>
-                <a href="https://www.researchgate.net/profile/Bartolomeo-Fanizza" target="_blank" class="contact-btn">
+                <a href="https://scholar.google.com/citations?user=WowoKVcAAAAJ" target="_blank" rel="noopener noreferrer" class="contact-btn">
+                    <i class="fas fa-graduation-cap"></i> Google Scholar
+                </a>
+                <a href="https://www.researchgate.net/profile/Bartolomeo-Fanizza" target="_blank" rel="noopener noreferrer" class="contact-btn">
                     <i class="fab fa-researchgate"></i> ResearchGate
                 </a>
             </div>
@@ -457,44 +626,116 @@
             </div>
         </section>
         
-        <!-- Publications -->
+        <!-- Publications (AUTO-GENERATED FROM BIBTEX) -->
         <section id="publications">
             <div class="section-header">
-                <h3>Selected Publications</h3>
+                <h3>Journal Publications</h3>
                 <div class="section-line"></div>
             </div>
-            <div class="pub-list">
-                <!-- Paper 1 -->
+            <div id="journal-publications" class="pub-list">
+                <!-- Will be populated by JavaScript -->
                 <div class="glass-card pub-item">
-                    <div class="pub-title">Adjoint-based optimization for non-linear inverse problems with high-order discretization of the compressible RANS equations</div>
-                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Emeric Martin, Denis Sipp</div>
-                    <div class="pub-meta">Applied Mathematical Modelling, Vol 142, 115984 (2025)</div>
-                    <a href="https://doi.org/10.1016/j.apm.2025.115984" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> View Paper</a>
+                    <div class="pub-meta">Loading publications...</div>
                 </div>
-                <!-- Paper 2 -->
+            </div>
+            
+            <div class="section-header" style="margin-top: 4rem;">
+                <h3>Conference Proceedings</h3>
+                <div class="section-line"></div>
+            </div>
+            <div id="conference-publications" class="pub-list">
+                <!-- Will be populated by JavaScript -->
                 <div class="glass-card pub-item">
-                    <div class="pub-title">Robust Features Design For Machine-Learning Augmented Turbulence Closure Models</div>
-                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
-                    <div class="pub-meta">ODAS 2024: 24th joint ONERA-DLR Aerospace Symposium</div>
+                    <div class="pub-meta">Loading publications...</div>
                 </div>
-                <!-- Paper 3 -->
+            </div>
+
+            <div class="section-header" style="margin-top: 4rem;">
+                <h3>Others</h3>
+                <div class="section-line"></div>
+            </div>
+            <div id="other-publications" class="pub-list">
+                <!-- Will be populated by JavaScript -->
                 <div class="glass-card pub-item">
-                    <div class="pub-title">Field-inversion analyses for machine-learning applications of compressible RANS computations in a discontinuous Galerkin framework</div>
-                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
-                    <div class="pub-meta">9th ECCOMAS Congress, Lisboa, Portugal (2024)</div>
+                    <div class="pub-meta">Loading publications...</div>
                 </div>
-                <!-- Paper 4 -->
-                <div class="glass-card pub-item">
-                    <div class="pub-title">Improving RANS modeling with data-assimilation for compressible flows</div>
-                    <div class="pub-authors">Bartolomeo Fanizza, Pedro Stefanin Volpiani, Florent Renac, Denis Sipp</div>
-                    <div class="pub-meta">ERCOFTAC Symposium, Barcelona, Spain (2023)</div>
+            </div>
+        </section>
+
+        <!-- NEW: GITHUB DARK THEME CODE EDITOR CONTACT FORM -->
+        <section id="contact" class="visible">
+            <div class="section-header">
+                <h3>Send a Message</h3>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="code-editor">
+                <div class="code-editor-header">
+                    <span class="code-editor-dot dot-red"></span>
+                    <span class="code-editor-dot dot-yellow"></span>
+                    <span class="code-editor-dot dot-green"></span>
+                    <span class="code-editor-title">contact_bartolomeo.js</span>
+                </div>
+                <div class="code-editor-body">
+                    <form id="emailForm" onsubmit="sendEmail(event)">
+                        <div class="code-line">
+                            <span class="line-number">1</span>
+                            <span class="code-keyword">const</span>
+                            <span class="code-var">recipient</span>
+                            <span>=</span>
+                            <span class="code-string">"bartolomeo.fanizza@outlook.it"</span>;
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">2</span>
+                            <span class="code-comment">// Your information</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">3</span>
+                            <span class="code-keyword">const</span>
+                            <span class="code-var">yourName</span>
+                            <span>=</span>
+                            <input type="text" class="code-input" id="nameInput" placeholder='"Your Name"' required>
+                            <span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">4</span>
+                            <span class="code-keyword">const</span>
+                            <span class="code-var">yourEmail</span>
+                            <span>=</span>
+                            <input type="email" class="code-input" id="emailInput" placeholder='"your@email.com"' required>
+                            <span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">5</span>
+                            <span class="code-comment">// Message content</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">6</span>
+                            <span class="code-keyword">let</span>
+                            <span class="code-var">message</span>
+                            <span>=</span>
+                            <textarea class="code-input" id="messageInput" placeholder='"Your message here..."' rows="4" required></textarea>
+                            <span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">7</span>
+                            <span class="code-comment">// Execute email</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">8</span>
+                            <button type="submit" class="code-send-btn">
+                                <i class="fas fa-play"></i>
+                                <span>execute_mail()</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
         
         <!-- Footer -->
         <footer>
-            <p class="mono">© 2025 Bartolomeo Fanizza. Designed with Fluid Dynamics in mind.</p>
+            <p class="mono">© <script>document.write(new Date().getFullYear())</script> Bartolomeo Fanizza. Designed with Fluid Dynamics in mind.</p>
             <p style="margin-top:0.5rem; opacity: 0.5;">Hosted on GitHub Pages</p>
         </footer>
     </div>
@@ -510,7 +751,6 @@
             mobileNav.classList.toggle('active');
             overlay.classList.toggle('active');
             
-            // Toggle icon
             if (mobileNav.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
@@ -532,7 +772,6 @@
             icon.classList.add('fa-bars');
         }
         
-        // Close menu when clicking overlay
         document.getElementById('navOverlay').addEventListener('click', closeMobileMenu);
         
         // --- 2. Scroll Animation Observer ---
@@ -572,6 +811,174 @@
                 orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
             });
         });
+        
+        // --- 5. Email Form Handler ---
+        function sendEmail(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+            const message = document.getElementById('messageInput').value;
+            
+            const subject = `Website Message from ${name}`;
+            const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+            const mailtoLink = `mailto:bartolomeo.fanizza@outlook.it?subject=${encodeURIComponent(subject)}&body=${body}`;
+            
+            window.location.href = mailtoLink;
+            alert('📧 Opening your email client... Please complete and send the message!');
+        }
+        
+        // --- 6. Debug Contact Buttons ---
+        document.querySelectorAll('.contact-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                console.log('Contact button clicked:', btn.getAttribute('href'));
+            });
+        });
+        
+        // ============================================
+        // --- 7. BIBTEX PARSER & PUBLICATIONS LOADER ---
+        // ============================================
+
+        async function loadPublications() {
+            try {
+                const response = await fetch('publications.bib');
+                if (!response.ok) {
+                    throw new Error('BibTeX file not found');
+                }
+                
+                const bibtexText = await response.text();
+                const publications = parseBibtex(bibtexText);
+                
+                // Separate journals and conferences
+                const journals = publications.filter(pub => 
+                    pub.type === 'article' || (pub.type === 'inproceedings' && pub.journal)
+                );
+                const conferences = publications.filter(pub => 
+                    pub.type === 'inproceedings' || pub.type === 'conference'
+                );
+                const others = publications.filter(pub => 
+                    pub.type === 'other' || pub.type === 'others' || pub.type === 'phdthesis'
+                );
+                
+                // Sort by year (recent to older)
+                journals.sort((a, b) => {
+                    const yearA = parseInt(a.fields.year) || 0;
+                    const yearB = parseInt(b.fields.year) || 0;
+                    return yearB - yearA;
+                });
+                
+                conferences.sort((a, b) => {
+                    const yearA = parseInt(a.fields.year) || 0;
+                    const yearB = parseInt(b.fields.year) || 0;
+                    return yearB - yearA;
+                });
+                
+                others.sort((a, b) => {
+                    const yearA = parseInt(a.fields.year) || 0;
+                    const yearB = parseInt(b.fields.year) || 0;
+                    return yearB - yearA;
+                });
+                
+                // Render publications
+                renderPublications('journal-publications', journals, true);
+                renderPublications('conference-publications', conferences, false);
+                renderPublications('other-publications', others, false);
+                    
+            } catch (error) {
+                console.error('Error loading publications:', error);
+                document.getElementById('journal-publications').innerHTML = 
+                    '<div class="glass-card pub-item"><div class="pub-meta">No publications loaded. Make sure publications.bib exists in the same folder.</div></div>';
+                document.getElementById('conference-publications').innerHTML = 
+                    '<div class="glass-card pub-item"><div class="pub-meta">No publications loaded. Make sure publications.bib exists in the same folder.</div></div>';
+                document.getElementById('other-publications').innerHTML = 
+                    '<div class="glass-card pub-item"><div class="pub-meta">No publications loaded. Make sure publications.bib exists in the same folder.</div></div>';
+            }
+        }
+        
+        function parseBibtex(text) {
+            const publications = [];
+            const regex = /@\w+\{([^,]+),([\s\S]*?)\n\}/g;
+            let match;
+            
+            while ((match = regex.exec(text)) !== null) {
+                const entry = {
+                    key: match[1].trim(),
+                    fields: {}
+                };
+                
+                const fields = match[2];
+                const fieldRegex = /(\w+)\s*=\s*{([^}]+)}|(\w+)\s*=\s*"([^"]+)"/g;
+                let fieldMatch;
+                
+                while ((fieldMatch = fieldRegex.exec(fields)) !== null) {
+                    const key = fieldMatch[1] || fieldMatch[3];
+                    const value = fieldMatch[2] || fieldMatch[4];
+                    entry.fields[key.toLowerCase()] = value.trim();
+                }
+                
+                entry.type = match[0].match(/@\w+/)[0].substring(1).toLowerCase();
+                publications.push(entry);
+            }
+            
+            return publications;
+        }
+        
+        function renderPublications(containerId, publications, isJournal) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (publications.length === 0) {
+                container.innerHTML = '<div class="glass-card pub-item"><div class="pub-meta">No publications found</div></div>';
+                return;
+            }
+            
+            publications.forEach(pub => {
+                const card = document.createElement('div');
+                card.className = 'glass-card pub-item';
+                
+                // Format authors
+                const authors = pub.fields.author || 'Unknown Authors';
+                
+                // Format title
+                const title = pub.fields.title || 'Untitled';
+                
+                // Format journal/conference
+                let venue = '';
+                if (isJournal) {
+                    venue = pub.fields.journal || pub.fields.booktitle || 'Unknown Journal';
+                    const year = pub.fields.year || '';
+                    const volume = pub.fields.volume ? `Vol ${pub.fields.volume}` : '';
+                    const pages = pub.fields.pages || '';
+                    const number = pub.fields.number ? `(${pub.fields.number})` : '';
+                    venue = `${venue} ${volume} ${number} ${pages} (${year})`.trim();
+                } else {
+                    venue = pub.fields.booktitle || pub.fields.journal || 'Unknown Conference';
+                    const year = pub.fields.year || '';
+                    const location = pub.fields.address || '';
+                    venue = `${venue}, ${location} (${year})`.trim();
+                }
+                
+                // Format DOI link
+                let doiLink = '';
+                if (pub.fields.doi) {
+                    doiLink = `https://doi.org/${pub.fields.doi}`;
+                } else if (pub.fields.url) {
+                    doiLink = pub.fields.url;
+                }
+                
+                card.innerHTML = `
+                    <div class="pub-title">${title}</div>
+                    <div class="pub-authors">${authors}</div>
+                    <div class="pub-meta">${venue}</div>
+                    ${doiLink ? `<a href="${doiLink}" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> View Paper</a>` : ''}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Load publications when page loads
+        document.addEventListener('DOMContentLoaded', loadPublications);
     </script>
 </body>
 </html>
